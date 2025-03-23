@@ -4,32 +4,48 @@
 
 # PHP 8.4
 ```bash
-sudo dnf install -y dnf-utils http://rpms.remirepo.net/fedora/remi-release-<versão do Fedora>.rpm
-sudo dnf module reset php
-sudo dnf module enable php:remi-8.4
+#!/bin/bash
+
+# Atualizar e instalar o repositório Remi
+sudo dnf install -y dnf-utils
+sudo dnf install -y http://rpms.remirepo.net/fedora/remi-release-$(rpm -E %fedora).rpm
+
+# Resetar e habilitar o módulo PHP 8.4
+sudo dnf module reset php -y
+sudo dnf module enable php:remi-8.4 -y
+
+# Instalar PHP 8.4 e extensões
 sudo dnf install -y php php-cli php-fpm php-json php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-json
 
+# Instalar NVM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
-source ~/.bashrc
+
+# Carregar NVM no shell atual
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+
+# Instalar Node.js LTS e versão 16
 nvm install --lts
 nvm install 16
 nvm use 16
 nvm alias default 16
 
+# Instalar Composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
 
+# Instalar Valet
 composer global require cpriego/valet-linux
+
+# Adicionar Composer ao PATH e carregar no shell atual
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 source ~/.bashrc
+
+# Instalar Valet
 valet install
 
-```
-## Inserir no final do texto
 
-```bash
-export PATH=$PATH:$HOME/.config/composer/vendor/bin/
 ```
 ## 2.0 instalar valet e instalar laravel global e Terminal zsh
 https://dev.to/henriquemsimoes/instalando-e-configurando-zsh-e-oh-my-zsh-4bem
