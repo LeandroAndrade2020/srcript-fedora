@@ -1,35 +1,39 @@
 ## CONFIGURANDO um AMBIENTE de DESENVOLVIMENTO LARAVEL no LINUX FEDORA
-https://www.youtube.com/watch?v=m7ULdRiMd-w&t=324s
-
 
 ## 1.0 Instalar PHP e Instalar composer e Instalar nvm e Instalar valet-linux
-https://computingforgeeks.com/how-to-install-php-8-2-on-ubuntu/#google_vignette
-
-https://ubuntuhandbook.org/index.php/2024/11/install-or-upgrade-to-php-8-4-in-ubuntu-24-04-22-04/
-
-https://www.treinaweb.com.br/blog/instalando-e-gerenciando-varias-versoes-do-node-js-com-nvm
-https://cpriego.github.io/valet-linux/
-
-## PHP8.2
-```bash
-sudo apt update && sudo apt install -y lsb-release gnupg2 ca-certificates apt-transport-https software-properties-common && sudo add-apt-repository ppa:ondrej/php && sudo apt install php8.2 -y && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" 
-php composer-setup.php
-php -r "unlink('composer-setup.php');"  && sudo mv composer.phar /usr/local/bin/composer &&
-sudo apt install curl -y 
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && source ~/.bashrc && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash && source ~/.bashrc && nvm install node &&
-sudo systemctl stop apache2 && sudo systemctl disable apache2 && sudo apt install network-manager libnss3-tools jq xsel -y && sudo apt install php8.2-mbstring php8.2-cli php8.2-curl php8.2-xml php8.2-zip php8.2-mysql php8.2-pgsql php8.2-sqlite3 php8.2-gd -y && composer global require cpriego/valet-linux && nano .bashrc
-```
 
 ## PHP8.4
-```bash
-sudo apt update && sudo apt install -y lsb-release gnupg2 ca-certificates apt-transport-https software-properties-common && sudo add-apt-repository ppa:ondrej/php && sudo apt install php8.4 -y && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" 
-php composer-setup.php
-php -r "unlink('composer-setup.php');"  && sudo mv composer.phar /usr/local/bin/composer &&
-sudo apt install curl -y 
-curl https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash && source ~/.bashrc && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.34.0/install.sh | bash && source ~/.bashrc && nvm install node &&
-sudo systemctl stop apache2 && sudo systemctl disable apache2 && sudo apt install network-manager libnss3-tools jq xsel -y && sudo apt install php8.4-mbstring php8.4-cli php8.4-curl php8.4-xml php8.4-zip php8.4-mysql php8.4-pgsql php8.4-sqlite3 php8.4-gd -y && composer global require cpriego/valet-linux && nano .bashrc
+# PHP 8.2
+sudo dnf install -y dnf-utils http://rpms.remirepo.net/fedora/remi-release-<versão do Fedora>.rpm
+sudo dnf module reset php
+sudo dnf module enable php:remi-8.2
+sudo dnf install -y php php-cli php-fpm php-json php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-json
+
+# PHP 8.4 (quando disponível)
+sudo dnf install -y dnf-utils http://rpms.remirepo.net/fedora/remi-release-<versão do Fedora>.rpm
+sudo dnf module reset php
+sudo dnf module enable php:remi-8.4
+sudo dnf install -y php php-cli php-fpm php-json php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-json
+
+# NVM
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
+source ~/.bashrc
+nvm install --lts
+nvm install 16
+nvm use 16
+nvm alias default 16
+
+# Composer
+php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+php -r "unlink('composer-setup.php');"
+
+# Valet
+composer global require cpriego/valet-linux
+export PATH="$HOME/.config/composer/vendor/bin:$PATH"
+source ~/.bashrc
+valet install
+
 ```
 ## Inserir no final do texto
 
