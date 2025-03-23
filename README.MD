@@ -2,20 +2,13 @@
 
 ## 1.0 Instalar PHP e Instalar composer e Instalar nvm e Instalar valet-linux
 
-## PHP8.4
-# PHP 8.2
-sudo dnf install -y dnf-utils http://rpms.remirepo.net/fedora/remi-release-<versão do Fedora>.rpm
-sudo dnf module reset php
-sudo dnf module enable php:remi-8.2
-sudo dnf install -y php php-cli php-fpm php-json php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-json
-
-# PHP 8.4 (quando disponível)
+# PHP 8.4
+```bash
 sudo dnf install -y dnf-utils http://rpms.remirepo.net/fedora/remi-release-<versão do Fedora>.rpm
 sudo dnf module reset php
 sudo dnf module enable php:remi-8.4
 sudo dnf install -y php php-cli php-fpm php-json php-common php-mysqlnd php-zip php-gd php-mbstring php-curl php-xml php-pear php-bcmath php-json
 
-# NVM
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 source ~/.bashrc
 nvm install --lts
@@ -23,12 +16,10 @@ nvm install 16
 nvm use 16
 nvm alias default 16
 
-# Composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 php composer-setup.php --install-dir=/usr/local/bin --filename=composer
 php -r "unlink('composer-setup.php');"
 
-# Valet
 composer global require cpriego/valet-linux
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 source ~/.bashrc
