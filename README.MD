@@ -32,8 +32,10 @@ nvm alias default 16
 
 # Instalar Composer
 php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-php composer-setup.php --install-dir=/usr/local/bin --filename=composer
+php -r "if (hash_file('sha384', 'composer-setup.php') === 'dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6') { echo 'Installer verified'.PHP_EOL; } else { echo 'Installer corrupt'.PHP_EOL; unlink('composer-setup.php'); exit(1); }"
+php composer-setup.php
 php -r "unlink('composer-setup.php');"
+sudo mv composer.phar /usr/local/bin/composer
 
 # Instalar Valet
 composer global require cpriego/valet-linux
@@ -46,7 +48,7 @@ source ~/.bashrc
 valet install
 
 # Configurar Valet, Laravel e Zsh com Oh My Zsh
-source ~/.bashrc && valet install && valet restart && valet paths && mkdir -p ~/code && cd ~/code && valet park && valet paths && composer global require laravel/installer && sudo dnf install -y zsh && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+source ~/.bashrc && sudo setenforce 0 && valet install && sudo setenforce 1 && valet restart && valet paths && mkdir -p ~/code && cd ~/code && valet park && valet paths && composer global require laravel/installer && sudo dnf install -y zsh && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
 # Mudar o shell padrão para Zsh
 chsh -s $(which zsh)
