@@ -71,6 +71,19 @@ sed -i 's/ZSH_THEME=".*"/ZSH_THEME="spaceship"/' ~/.zshrc
 # Recarregar Zsh
 source ~/.zshrc
 
+# Instalar MySQL
+sudo dnf install -y mysql-server
+sudo systemctl start mysqld
+sudo systemctl enable mysqld
+
+# Configurar MySQL
+sudo mysql -u root -e "
+CREATE USER 'leandro'@'localhost' IDENTIFIED BY 'PASSWORD';
+GRANT ALL PRIVILEGES ON *.* TO 'leandro'@'localhost' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+"
+
+
 ```
 ```bash
 source ~/.zshrc && nano ~/.zshrc
@@ -260,39 +273,6 @@ export PATH=$PATH:$HOME/.config/composer/vendor/bin/
 source ~/.zshrc && nano ~/.zshrc
 ```
 
-## 3.0 Banco de dados 
-
-https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-22-04
-
-```bash
-sudo apt update && sudo apt install mysql-server && sudo systemctl start mysql && sudo systemctl enable mysql
-```
-
-```bash
-sudo mysql -u root -p
-```
-
-```bash
-CREATE USER 'leandro'@'localhost' IDENTIFIED BY 'PASSWORD';
-```
-
-```bash
-GRANT ALL PRIVILEGES ON *.* TO 'leandro'@'localhost' WITH GRANT OPTION;
-```
-
-```bash
-FLUSH PRIVILEGES;
-```
-
-Altere o método de autenticação:
-No console do MySQL, altere o plugin de autenticação para mysql_native_password.
-```bash
-ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
-```
-```bash
-exit
-
-```
 ## 4.0 Instalar Bun e DBeaver e Google Chrome
 ```bash
 curl -fsSL https://bun.sh/install | bash && wget https://dbeaver.io/files/dbeaver-ce_latest_amd64.deb && sudo dpkg -i dbeaver-ce_latest_amd64.deb && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && sudo dpkg -i google-chrome-stable_current_amd64.deb
@@ -306,83 +286,6 @@ https://www.microsoft.com/pt-br/edge/download
 https://code.visualstudio.com/docs/?dv=linux64_deb
 ```
 
-## 5.1 PgSql
-
-https://www.hostinger.com.br/tutoriais/instalar-postgresql-ubuntu-20-04
-
-```bash
-sudo apt install postgresql postgresql-contrib
-
-```
-```bash
-sudo systemctl status postgresql
-
-```
-```bash
-sudo systemctl start postgresql
-sudo systemctl enable postgresql
-
-```
-```bash
-sudo -i -u postgres
-
-```
-```bash
-psql
-
-```
-Alterar a senha da conta postgres
-```bash
-ALTER USER postgres PASSWORD 'password';
-```
-```bash
-sudo service postgresql restart
-```
-
-```bash
-CREATE USER leandro WITH PASSWORD 'password';
-```
-```bash
-ALTER USER leandro WITH SUPERUSER;
-```
-```bash
-ALTER USER leandro WITH CREATEDB;
-```
-```bash
-ALTER USER leandro WITH CREATEROLE;
-```
-```bash
-ALTER USER usuario_teste WITH CREATEDB;
-```
-
-```bash
-CREATE DATABASE nome_do_banco;
-```
-
-```bash
-GRANT ALL PRIVILEGES ON DATABASE nome_do_banco TO leandro;
-
-```
-```bash
-\q
-```
-```bash
-exit
-```
-## 11.3 PgAdmin4
-```bash
-curl -fsS https://www.pgadmin.org/static/packages_pgadmin_org.pub | sudo gpg --dearmor -o /usr/share/keyrings/packages-pgadmin-org.gpg
-```
-```bash
-sudo sh -c 'echo "deb [signed-by=/usr/share/keyrings/packages-pgadmin-org.gpg] https://ftp.postgresql.org/pub/pgadmin/pgadmin4/apt/$(lsb_release -cs) pgadmin4 main" > /etc/apt/sources.list.d/pgadmin4.list && apt update'
-```
-```bash
-sudo apt install pgadmin4-desktop
-```
-## 11.4 Backup banco de dados no pgsql
-```bash
-pg_dump -U leandro -h localhost -d atribuicao_professor -F c -b -v -f atribuicao_professor.dump 
-```
 
 ## 12.0 Dual boot Pop Os com Windows 11
 
@@ -417,84 +320,6 @@ sudo rm -rf /mnt/windows/
 ```
 ```bash
 exit
-```
-
-## 5.0 Instalar docker
-https://computingforgeeks.com/install-docker-docker-compose-on-linux-mint/
-
-
-```bash
-sudo apt update
-sudo apt -y install apt-transport-https ca-certificates curl software-properties-common
-sudo apt -y remove docker docker-engine docker.io containerd runc
-
-```
-```bash
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
-```
-```bash
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu jammy stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-```
-```bash
-cat /etc/apt/sources.list.d/docker.list
-```
-
-
-## 5.1 Install Docker Engine e Docker Compose
-https://docs.docker.com/engine/install/ubuntu/
-
-```bash
-sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-
-```
-```bash
-sudo usermod -aG docker $USER
-```
-```bash
-newgrp docker
-```
-```bash
-docker version
-```
-```bash
-sudo apt-get remove docker docker-engine docker.io containerd runc
-```
-```bash
-sudo apt-get update
-sudo apt-get install ca-certificates curl gnupg
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-```
-```bash
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-sudo apt-get update
-
-```
-```bash
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y
-```
-```bash
-docker ps
-```
-
-
-## 6.0 Instalar takeout
-https://github.com/tighten/takeout
-
-```bash
-composer global require tightenco/takeout
-```
-```bash
-takeout enable mysql
-```
-```bash
-password
 ```
 
 
