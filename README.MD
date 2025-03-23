@@ -51,16 +51,26 @@ source ~/.bashrc && valet install && valet restart && valet paths && mkdir -p ~/
 # Mudar o shell padrão para Zsh
 chsh -s $(which zsh)
 
-```
+# Instalar tema Spaceship e plugins de Zsh
+ZSH_CUSTOM=~/.oh-my-zsh/custom
 
-```bash
+# Clonar e configurar o tema Spaceship
 git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
-
 ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
+# Clonar e configurar plugins de Zsh
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
 git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+
+# Adicionar plugins ao ~/.zshrc
+sed -i 's/plugins=(git)/plugins=(git zsh-syntax-highlighting zsh-autosuggestions)/' ~/.zshrc
+
+# Definir tema Spaceship no ~/.zshrc
+sed -i 's/ZSH_THEME=".*"/ZSH_THEME="spaceship"/' ~/.zshrc
+
+# Recarregar Zsh
+source ~/.zshrc
+
 ```
 ```bash
 source ~/.zshrc && nano ~/.zshrc
