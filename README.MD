@@ -45,12 +45,12 @@ source ~/.bashrc
 # Instalar Valet
 valet install
 
+# Configurar Valet, Laravel e Zsh com Oh My Zsh
+source ~/.bashrc && valet install && valet restart && valet paths && mkdir -p ~/code && cd ~/code && valet park && valet paths && composer global require laravel/installer && sudo dnf install -y zsh && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 
-```
-## 2.0 instalar valet e instalar laravel global e Terminal zsh
-https://dev.to/henriquemsimoes/instalando-e-configurando-zsh-e-oh-my-zsh-4bem
-```bash
-source ~/.bashrc && valet install && valet restart && valet paths && mkdir code && cd code && valet park && valet paths && composer global require laravel/installer && sudo apt install zsh -y && sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" -y
+# Mudar o shell padrão para Zsh
+chsh -s $(which zsh)
+
 ```
 
 ```bash
