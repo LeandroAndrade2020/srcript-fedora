@@ -72,6 +72,90 @@ sed -i 's/plugins=(git)/plugins=(git zsh-syntax-highlighting zsh-autosuggestions
 # Definir tema Spaceship no ~/.zshrc
 sed -i 's/ZSH_THEME=".*"/ZSH_THEME="spaceship"/' ~/.zshrc
 
+cat <<EOF | tee -a ~/.zshrc
+
+# Minhas Configurações Personalizadas no Zsh
+
+# ====== ALIASES PHP / LARAVEL ======
+alias pa="php artisan"
+alias cc="php artisan config:clear && php artisan route:clear && php artisan view:clear && php artisan config:cache && php artisan route:cache && php artisan view:cache"
+alias nd="bun run dev"
+alias nb="bun run build"
+alias env="cp .env.example .env"
+alias rl="php artisan route:list --except-vendor"
+alias op="php artisan optimize:clear"
+alias sl="php artisan storage:link"
+
+# ====== ALIASES GIT ======
+alias ga="git add ."
+alias gs="git status"
+alias gp="git pull"
+alias gm="git commit -m"
+alias gc="git clone"
+alias wip="git add .; git commit -m 'wip' > /dev/null; git push"
+alias gg="ga && gm"
+
+# ====== ALIASES PARA GERENCIAMENTO DE BANCOS DE DADOS ======
+alias db="php artisan migrate:fresh --seed"
+alias ms="php artisan migrate:status"
+alias m="php artisan migrate"
+alias mr="php artisan migrate:rollback --step=1"
+alias sqlite="touch database/database.sqlite"
+
+# ====== ALIASES PARA GERENCIAMENTO DE DEPENDÊNCIAS ======
+alias ci="composer install"
+alias cu="composer update"
+alias cn="composer install && npm install"
+alias ni="bun install"
+alias nu="bun update"
+alias up="cu && nu && nb && cc && op && nd"
+alias start="env && ci && cu && ni && nu && nb && cc && op && nd"
+alias lf="rm -rf node_modules package-lock.json && npm install && npm run dev"
+
+# ====== ALIASES PARA TESTES E FERRAMENTAS ======
+alias tp="pa test --parallel"
+alias tdd="./vendor/bin/pest --dirty"
+alias t="pa test"
+alias tinker="pa tinker"
+alias pint="./vendor/bin/pint"
+alias stan="./vendor/bin/phpstan analyse"
+
+# ====== ALIASES PARA CRIAÇÃO DE ARQUIVOS LARAVEL ======
+alias model="pa make:model"
+alias control="pa make:controller"
+alias live="pa make:livewire"
+alias v="pa make:volt"
+alias pg="php artisan powergrid:create"
+alias form="pa livewire:form"
+
+# ====== ALIASES PARA FERRAMENTAS / PLUGINS ======
+alias debugbar="composer require barryvdh/laravel-debugbar --dev"
+alias dompdf="composer require barryvdh/laravel-dompdf && pa vendor:publish --provider='Barryvdh\DomPDF\ServiceProvider'"
+alias heroicons="composer require blade-ui-kit/blade-heroicons"
+alias lang="php artisan lang:publish"
+alias excel="composer require maatwebsite/excel"
+
+# ====== ALIASES PARA TAKEOUT ======
+alias tl="takeout list"
+alias te="takeout enable"
+alias ts="takeout start"
+alias td="takeout disable --all"
+alias tdb="takeout enable mariadb"
+
+# ====== CONFIGURAÇÃO DO NVM ======
+export NVM_DIR="\$HOME/.nvm"
+[ -s "\$NVM_DIR/nvm.sh" ] && \. "\$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "\$NVM_DIR/bash_completion" ] && \. "\$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# ====== CONFIGURAÇÃO DO PATH PARA COMPOSER ======
+export PATH=\$PATH:\$HOME/.config/composer/vendor/bin/
+
+# ====== CONFIGURAÇÃO DO PATH PARA BUN ======
+export BUN_INSTALL="\$HOME/.bun"
+export PATH="\$BUN_INSTALL/bin:\$PATH"
+
+EOF
+
 # Recarregar Zsh
 source ~/.zshrc
 
