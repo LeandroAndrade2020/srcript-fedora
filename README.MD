@@ -39,6 +39,8 @@ sudo mv composer.phar /usr/local/bin/composer
 
 # Instalar Valet
 composer global require cpriego/valet-linux
+sudo dnf install -y nss-tools
+sudo dnf install -y xsel
 
 # Adicionar Composer ao PATH e carregar no shell atual
 export PATH="$HOME/.config/composer/vendor/bin:$PATH"
